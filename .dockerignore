@@ -1,0 +1,7 @@
+*
+!files/dev-perms.pem
+!files/dev-perms.pub.pem
+!files/dev-reticulum-jwk.json
+!files/dev-reticulum.conf
+!services/reticulum/priv/dev-ssl.cert
+!services/reticulum/priv/dev-ssl.key

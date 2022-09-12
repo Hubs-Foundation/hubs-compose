@@ -1,0 +1,146 @@
+version: "3.9"
+services:
+  db:
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+    image: "postgres:14-alpine"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  dialog:
+    build:
+      context: .
+      dockerfile: dockerfiles/dialog.Dockerfile
+      target: dev
+    command: sh -c "npm install && npm start"
+    environment:
+      AUTH_KEY: /etc/perms.pub.pem
+      HTTPS_CERT_FULLCHAIN: /etc/ssl/fullchain.pem
+      HTTPS_CERT_PRIVKEY: /etc/ssl/privkey.pem
+      INTERACTIVE: "false"
+    ports:
+      - "4443:4443"
+    volumes:
+      - dialog:/code
+    working_dir: /code
+  hubs-admin:
+    build:
+      context: .
+      dockerfile: dockerfiles/hubs.Dockerfile
+      target: dev
+    command: sh -c "npm install && npm run local"
+    depends_on:
+      - postgrest
+      - reticulum
+    environment:
+      INTERNAL_HOSTNAME: hubs-admin
+    healthcheck:
+      test: ["CMD", "curl", "-fk", "https://localhost:8989/admin.html"]
+    ports:
+      - "8989:8989"
+    volumes:
+      - hubs:/code
+    working_dir: /code/admin
+  hubs-client:
+    build:
+      context: .
+      dockerfile: dockerfiles/hubs.Dockerfile
+      target: dev
+    command: sh -c "npm install && npm run local"
+    depends_on:
+      - dialog
+      - reticulum
+    environment:
+      INTERNAL_HOSTNAME: hubs-client
+    healthcheck:
+      test: ["CMD", "curl", "-fk", "https://localhost:8080"]
+    ports:
+      - "8080:8080"
+    volumes:
+      - hubs:/code
+    working_dir: /code
+  postgrest:
+    build:
+      context: .
+      dockerfile: dockerfiles/postgrest.Dockerfile
+      target: dev
+    command: postgrest reticulum.conf
+    depends_on:
+      - db
+  reticulum:
+    build:
+      context: .
+      dockerfile: dockerfiles/reticulum.Dockerfile
+      target: dev
+    command: sh -c "mix deps.get && mix ecto.create && PERMS_KEY=$$(cat /etc/perms.pem) mix phx.server"
+    depends_on:
+      - db
+    environment:
+      DB_CREDENTIALS: postgres
+      DB_HOST: db
+      DIALOG_HOSTNAME: "hubs.local"
+      DIALOG_PORT: 4443
+      HUBS_ADMIN_INTERNAL_HOSTNAME: hubs-admin
+      HUBS_CLIENT_INTERNAL_HOSTNAME: hubs-client
+      POSTGREST_INTERNAL_HOSTNAME: postgrest
+      SPOKE_INTERNAL_HOSTNAME: spoke
+    ports:
+      - "4000:4000"
+    volumes:
+      - reticulum:/code
+      - retstorage:/code/storage/dev
+  spoke:
+    build:
+      context: .
+      dockerfile: dockerfiles/spoke.Dockerfile
+      target: dev
+    command: sh -c "yarn --network-timeout 100000 && ./scripts/run-local-reticulum.sh"
+    depends_on:
+      - reticulum
+    environment:
+      INTERNAL_HOSTNAME: spoke
+    ports:
+      - "9090:9090"
+    volumes:
+      - spoke:/code
+volumes:
+  dialog:
+  hubs:
+  pgdata:
+  reticulum:
+  retstorage:
+  spoke:
+x-mutagen:
+  sync:
+    defaults:
+      ignore:
+        paths:
+          - ".DS_Store"
+          - ".gitignore"
+          - "/certs/"
+          - "/node_modules/"
+        vcs: true
+      mode: "two-way-resolved"
+    dialog:
+      alpha: ./services/dialog
+      beta: "volume://dialog"
+    hubs:
+      alpha: ./services/hubs
+      beta: "volume://hubs"
+      ignore:
+        paths:
+          - "/admin/certs/"
+          - "/admin/node_modules/"
+    reticulum:
+      alpha: ./services/reticulum
+      beta: "volume://reticulum"
+      ignore:
+        paths:
+          - "/_build/"
+          - "/bin/"
+          - "/storage/"
+    spoke:
+      alpha: ./services/spoke
+      beta: "volume://spoke"

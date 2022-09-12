@@ -1,0 +1,4 @@
+#!/bin/bash
+hash mutagen-compose || exit 1
+
+mutagen-compose up --build --detach
