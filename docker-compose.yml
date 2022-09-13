@@ -14,7 +14,7 @@ services:
       context: .
       dockerfile: dockerfiles/dialog.Dockerfile
       target: dev
-    command: sh -c "npm install && npm start"
+    command: npm start
     environment:
       AUTH_KEY: /etc/perms.pub.pem
       HTTPS_CERT_FULLCHAIN: /etc/ssl/fullchain.pem
@@ -30,10 +30,7 @@ services:
       context: .
       dockerfile: dockerfiles/hubs.Dockerfile
       target: dev
-    command: sh -c "npm install && npm run local"
-    depends_on:
-      - postgrest
-      - reticulum
+    command: npm run local
     environment:
       INTERNAL_HOSTNAME: hubs-admin
     healthcheck:
@@ -48,13 +45,11 @@ services:
       context: .
       dockerfile: dockerfiles/hubs.Dockerfile
       target: dev
-    command: sh -c "npm install && npm run local"
-    depends_on:
-      - dialog
-      - reticulum
+    command: npm run local
     environment:
       INTERNAL_HOSTNAME: hubs-client
     healthcheck:
+      start_period: 3m30s
       test: ["CMD", "curl", "-fk", "https://localhost:8080"]
     ports:
       - "8080:8080"
@@ -67,14 +62,12 @@ services:
       dockerfile: dockerfiles/postgrest.Dockerfile
       target: dev
     command: postgrest reticulum.conf
-    depends_on:
-      - db
   reticulum:
     build:
       context: .
       dockerfile: dockerfiles/reticulum.Dockerfile
       target: dev
-    command: sh -c "mix deps.get && mix ecto.create && PERMS_KEY=$$(cat /etc/perms.pem) mix phx.server"
+    command: sh -c "PERMS_KEY=$$(cat /etc/perms.pem) mix phx.server"
     depends_on:
       - db
     environment:
@@ -96,9 +89,7 @@ services:
       context: .
       dockerfile: dockerfiles/spoke.Dockerfile
       target: dev
-    command: sh -c "yarn --network-timeout 100000 && ./scripts/run-local-reticulum.sh"
-    depends_on:
-      - reticulum
+    command: ./scripts/run-local-reticulum.sh
     environment:
       INTERNAL_HOSTNAME: spoke
     ports:
