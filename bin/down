@@ -1,4 +1,5 @@
 #!/bin/bash
 hash mutagen-compose || exit 1
 
-mutagen-compose down
+basedir=$(dirname $0)
+mutagen-compose -f $basedir/../docker-compose.yml down

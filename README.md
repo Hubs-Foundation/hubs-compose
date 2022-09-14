@@ -12,14 +12,14 @@ security or scalability.  Additionally the permissions files were generated for 
 
 * [Install Docker Compose](https://docs.docker.com/compose/install)
 * [Install Mutagen Compose](https://github.com/mutagen-io/mutagen-compose#installation)
-* Clone service repositories with `bin/init`
+* Initialize the services with `bin/init`
 
 ### Orchestration
 
 * Start containers with `bin/up`
 * Stop containers `bin/down`
-* Wipe the slate clean with `bin/clean`
 * Observe running containers with `bin/observe`[^2]
+* Restore all services to a fresh state with `bin/reset`
 
 [^2]: Requires `tmux` and `watch` program files in the user’s path
 

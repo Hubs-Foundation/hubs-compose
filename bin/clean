@@ -1,5 +1,0 @@
-#!/bin/bash
-hash mutagen-compose || exit 1
-
-mutagen-compose down --volumes --rmi local
-rm -rf reticulum/{_build,deps}
