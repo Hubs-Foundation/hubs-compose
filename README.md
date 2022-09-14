@@ -10,9 +10,9 @@ security or scalability.  Additionally the permissions files were generated for 
 
 ### Initial Setup
 
-* [Install Docker Compose](https://docs.docker.com/compose/install)
-* [Install Mutagen Compose](https://github.com/mutagen-io/mutagen-compose#installation)
-* Initialize the services with `bin/init`
+1. [Install Docker Compose](https://docs.docker.com/compose/install)
+2. [Install Mutagen Compose](https://github.com/mutagen-io/mutagen-compose#installation)
+3. Initialize the services with `bin/init`
 
 ### Orchestration
 
