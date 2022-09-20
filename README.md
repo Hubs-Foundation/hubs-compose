@@ -35,7 +35,7 @@ certificates, you can visit https://hubs.local:4000 from your browser.
 
 Service communication is encrypted with self-signed Transport Layer Security
 (TLS) certificates.  You will need to accept the certificate at each of the
-ports mapped in [docker-compose.yml](docker-compose.yml).  At the time of this
+ports mapped in [`docker-compose.yml`](docker-compose.yml).  At the time of this
 writing, that means visiting these links in your web browser and following the
 prompts:
 
