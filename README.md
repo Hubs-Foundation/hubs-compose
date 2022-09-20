@@ -8,11 +8,19 @@ security or scalability.  Additionally the permissions files were generated for 
 
 ## Usage
 
+Once the containers are up and running and you have accepted the self-signed
+certificates, you can visit https://hubs.local:4000 from your browser.
+
 ### Initial Setup
 
 1. [Install Docker Compose](https://docs.docker.com/compose/install)
-2. [Install Mutagen Compose](https://github.com/mutagen-io/mutagen-compose#installation)
-3. Initialize the services with `bin/init`
+2. [Install Mutagen Compose](https://github.com/mutagen-io/mutagen-compose#system-requirements)
+3. Add these entries to your hosts file:
+
+        127.0.0.1   hubs.local
+        127.0.0.1   hubs-proxy.local
+
+4. Initialize the services with `bin/init`
 
 ### Orchestration
 
@@ -22,6 +30,20 @@ security or scalability.  Additionally the permissions files were generated for 
 * Restore all services to a fresh state with `bin/reset`
 
 [^2]: Requires `tmux` and `watch` program files in the user’s path
+
+### Self-Signed Certificates
+
+Service communication is encrypted with self-signed Transport Layer Security
+(TLS) certificates.  You will need to accept the certificate at each of the
+ports mapped in [docker-compose.yml](docker-compose.yml).  At the time of this
+writing, that means visiting these links in your web browser and following the
+prompts:
+
+* [4443: Dialog](https://hubs.local:4443)
+* [9090: Spoke](https://hubs.local:9090)
+* [8989: Hubs Admin](https://hubs.local:8989)
+* [8080: Hubs Client](https://hubs.local:8080)
+* [4000: Reticulum](https://hubs.local:4000)
 
 ### Command Execution
 
