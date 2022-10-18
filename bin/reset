@@ -1,7 +1,7 @@
 #!/bin/bash
 hash mutagen-compose || exit 1
 
-basedir=$(dirname $0)
-mutagen-compose -f $basedir/../docker-compose.yml down --volumes --rmi local
-rm -rf $basedir/../services/reticulum/deps
-$basedir/init
+basedir=$(readlink -f "$(dirname "$0")/..")
+mutagen-compose -f "$basedir/docker-compose.yml" down --volumes --rmi local
+rm -r "$basedir/services/reticulum/deps"
+"$basedir/bin/init"

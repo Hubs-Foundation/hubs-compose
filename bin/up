@@ -1,5 +1,5 @@
 #!/bin/bash
 hash mutagen-compose || exit 1
 
-basedir=$(dirname $0)
-mutagen-compose -f $basedir/../docker-compose.yml up --build --detach
+basedir=$(readlink -f "$(dirname "$0")/..")
+mutagen-compose -f "$basedir/docker-compose.yml" up --build --detach
