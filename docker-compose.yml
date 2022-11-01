@@ -96,6 +96,9 @@ services:
       - "9090:9090"
     volumes:
       - spoke:/code
+networks:
+  default:
+    name: mozilla-hubs
 volumes:
   dialog:
   hubs:
