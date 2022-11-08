@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  dialog:
+    volumes:
+      - type: bind
+        source: ./services/dialog
+        target: /code
+  hubs-admin:
+    volumes:
+      - type: bind
+        source: ./services/hubs
+        target: /code
+  hubs-client:
+    volumes:
+      - type: bind
+        source: ./services/hubs
+        target: /code
+  reticulum:
+    volumes:
+      - type: bind
+        source: ./services/reticulum
+        target: /code
+  spoke:
+    volumes:
+      - type: bind
+        source: ./services/spoke
+        target: /code

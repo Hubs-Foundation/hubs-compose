@@ -52,6 +52,27 @@ shell using the scripts inside the given service’s `bin/` directory.  For
 example, calling `bin/mix deps.get` from `./services/reticulum/` will download
 the dependencies for Reticulum.
 
+### Running without mutagen
+
+Mutagen and mutagen-compose are especially useful on MacOS (and Windows?), where docker's bind mounts do not perform well. If you prefer to use bind mounts, you can override the defaults by merging in the `docker-compose-bind-mounts.yml` file:
+
+```sh
+docker compose \
+    -f "docker-compose.yml" \
+    -f "docker-compose-bind-mounts.yml" \
+    up
+```
+
+To perform first-time setup, you will also want to merge in the `docker-compose-init.yml` file:
+
+```sh
+docker compose \
+    -f "docker-compose.yml" \
+    -f "docker-compose-bind-mounts.yml" \
+    -f "docker-compose-init.yml" \
+    up
+```
+
 ## Development
 
 ### Architectural Decision Records
