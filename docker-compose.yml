@@ -7,8 +7,6 @@ services:
       test: ["CMD", "pg_isready"]
     image: "postgres:14-alpine"
     user: postgres
-    volumes:
-      - pgdata:/var/lib/postgresql/data
   dialog:
     build:
       context: .
@@ -20,8 +18,6 @@ services:
       INTERACTIVE: "false"
     ports:
       - "4443:4443"
-    volumes:
-      - dialog:/code
     working_dir: /code
   hubs-admin:
     build:
@@ -35,8 +31,6 @@ services:
     platform: linux/amd64
     ports:
       - "8989:8989"
-    volumes:
-      - hubs:/code
     working_dir: /code/admin
     extra_hosts:
       - "hubs.local:host-gateway"
@@ -55,8 +49,6 @@ services:
     platform: linux/amd64
     ports:
       - "8080:8080"
-    volumes:
-      - hubs:/code
     working_dir: /code
     extra_hosts:
       - "hubs.local:host-gateway"
@@ -72,8 +64,6 @@ services:
     platform: linux/amd64
     ports:
       - "6006:6006"
-    volumes:
-      - hubs:/code
     working_dir: /code
   postgrest:
     build:
@@ -84,6 +74,7 @@ services:
       context: ./services/reticulum
       dockerfile: TurkeyDockerfile
       target: dev
+    command: sh -c "PERMS_KEY=$(cat /etc/perms.pem) mix phx.server"
     depends_on:
       - db
     environment:
@@ -97,9 +88,6 @@ services:
       SPOKE_INTERNAL_HOSTNAME: spoke
     ports:
       - "4000:4000"
-    volumes:
-      - reticulum:/code
-      - retstorage:/code/storage/dev
     extra_hosts:
       - "hubs.local:host-gateway"
       - "hubs-proxy.local:host-gateway"
@@ -114,8 +102,6 @@ services:
     platform: linux/amd64
     ports:
       - "9090:9090"
-    volumes:
-      - spoke:/code
     extra_hosts:
       - "hubs.local:host-gateway"
       - "hubs-proxy.local:host-gateway"
@@ -123,43 +109,3 @@ services:
 networks:
   default:
     name: mozilla-hubs
-volumes:
-  dialog:
-  hubs:
-  pgdata:
-  reticulum:
-  retstorage:
-  spoke:
-x-mutagen:
-  sync:
-    defaults:
-      ignore:
-        paths:
-          - ".DS_Store"
-          - ".gitignore"
-          - "/certs/"
-          - "/node_modules/"
-          - "package-lock.sha512"
-        vcs: true
-      mode: "two-way-resolved"
-    dialog:
-      alpha: ./services/dialog
-      beta: "volume://dialog"
-    hubs:
-      alpha: ./services/hubs
-      beta: "volume://hubs"
-      ignore:
-        paths:
-          - "/admin/certs/"
-          - "/admin/node_modules/"
-    reticulum:
-      alpha: ./services/reticulum
-      beta: "volume://reticulum"
-      ignore:
-        paths:
-          - "/_build/"
-          - "/bin/"
-          - "/storage/"
-    spoke:
-      alpha: ./services/spoke
-      beta: "volume://spoke"

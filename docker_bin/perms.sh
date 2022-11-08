@@ -1,0 +1,13 @@
+browser="$1"
+# browser="google-chrome-beta"
+# browser="firefox"
+
+$browser "https://hubs-proxy.local:4000"
+$browser "https://hubs-proxy.local:8080"
+$browser "https://hubs-proxy.local:8989"
+$browser "https://hubs.local:4000"
+$browser "https://hubs.local:4443"
+$browser "https://hubs.local:8989"
+$browser "https://hubs.local:8080"
+$browser "https://hubs.local:6006"
+$browser "https://hubs.local:9090"

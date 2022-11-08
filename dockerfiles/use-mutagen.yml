@@ -1,0 +1,64 @@
+services:
+  db:
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  dialog:
+    volumes:
+      - dialog:/code
+  hubs-admin:
+    volumes:
+      - hubs:/code
+  hubs-client:
+    volumes:
+      - hubs:/code
+  hubs-storybook:
+    volumes:
+      - hubs:/code
+  reticulum:
+    volumes:
+      - reticulum:/code
+      - retstorage:/code/storage/dev
+  spoke:
+    volumes:
+      - spoke:/code
+
+volumes:
+  dialog:
+  hubs:
+  pgdata:
+  reticulum:
+  retstorage:
+  spoke:
+x-mutagen:
+  sync:
+    defaults:
+      ignore:
+        paths:
+          - ".DS_Store"
+          - ".gitignore"
+          - "/certs/"
+          - "/node_modules/"
+          - "package-lock.sha512"
+        vcs: true
+      mode: "two-way-resolved"
+    dialog:
+      alpha: ./services/dialog
+      beta: "volume://dialog"
+    hubs:
+      alpha: ./services/hubs
+      beta: "volume://hubs"
+      ignore:
+        paths:
+          - "/admin/certs/"
+          - "/admin/node_modules/"
+    reticulum:
+      alpha: ./services/reticulum
+      beta: "volume://reticulum"
+      ignore:
+        paths:
+          - "/_build/"
+          - "/bin/"
+          - "/storage/"
+    spoke:
+      alpha: ./services/spoke
+      beta: "volume://spoke"

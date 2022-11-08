@@ -1,0 +1,4 @@
+# Mostly here for copy / paste
+alias dc='docker compose \
+              -f "docker-compose.yml" \
+              -f "docker-compose-bind-mounts.yml"'

@@ -1,0 +1,28 @@
+#/bin/bash
+
+read -p "This is init. Are you sure? " -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+  echo "Exiting."
+  exit 1
+fi
+
+basedir=$(dirname "$0")/..
+
+mkdir -p "$basedir/volumes/db"
+mkdir -p "$basedir/volumes/retstorage"
+
+# postgres user id in the image is 70
+sudo chown -R 70:70 $basedir/volumes/db
+
+docker compose \
+  -f "$basedir/docker-compose.yml" \
+  -f "$basedir/dockerfiles/use-bind-mounts.yml" \
+  -f "$basedir/dockerfiles/do-nothing.yml" \
+  -f "$basedir/dockerfiles/init-reticulum.yml" \
+  -f "$basedir/dockerfiles/init-dialog.yml" \
+  -f "$basedir/dockerfiles/init-hubs-admin.yml" \
+  -f "$basedir/dockerfiles/init-hubs-client.yml" \
+  -f "$basedir/dockerfiles/init-spoke.yml" \
+  up --build --detach

@@ -71,3 +71,18 @@ are stored in the `decisions/` directory.  If you make a decision that affects
 construction techniques” of the project, please document it.  If you
 [install ADR Tools](https://github.com/npryce/adr-tools#quick-start), `adr new`
 will generate the template for you.
+
+### About the skip-mutagen branch
+
+[John] 
+Mutagen and mutagen-compose are especially useful on MacOS (and maybe Windows?), where docker's bind mounts do not perform well. But it seems that mutagen / mutagen-compose are causing problems on my (linux) system, so I prefer not to use it.
+
+If anyone can diagnose and tell me how to avoid these problems, then I'll go back to using mutagen (which is the cross-platform option):
+- When I `mutagen-compose up` after a period when it's been down, mutagen seems to write files to the filesystem that it had cached. So if I was working on things or changing branches while `mutagen-compose` was not running, mutagen will introduce confusing changes once I bring the system up again.
+- While the system is running, mutagen seems to consumes a LOT of CPU and memory. I've been running into OOM errors causing my OS to kill processes or kick me out / end my session.
+
+I have some more complaints that are minor and I'd live with if the issues above were fixed. The minor complaints are:
+- Starting the system with `mutagen-compose up` is significantly slower, as it seems to take about a minute to finish some force-synchronization step.
+- My OS's package manager doesn't offer up-to-date releases of mutagen / mutagen-compose, so I am manually downloading / running binary releases from github.
+
+

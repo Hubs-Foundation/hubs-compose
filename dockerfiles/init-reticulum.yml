@@ -1,0 +1,5 @@
+version: "3.9"
+services:
+  reticulum:
+    command: sh -c "mix do deps.get, deps.compile, ecto.create"
+    # command: sh -c "mix ecto.create"

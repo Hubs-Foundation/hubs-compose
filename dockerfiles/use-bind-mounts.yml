@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  db:
+    volumes:
+      - type: bind
+        source: ./volumes/db
+        target: /var/lib/postgresql/data
+  dialog:
+    volumes:
+      - type: bind
+        source: ./services/dialog
+        target: /code
+  hubs-admin:
+    volumes:
+      - type: bind
+        source: ./services/hubs
+        target: /code
+  hubs-client:
+    volumes:
+      - type: bind
+        source: ./services/hubs
+        target: /code
+  reticulum:
+    volumes:
+      - type: bind
+        source: ./services/reticulum
+        target: /code
+      - type: bind
+        source: ./volumes/retstorage
+        target: /code/storage/dev
+  spoke:
+    volumes:
+      - type: bind
+        source: ./services/spoke
+        target: /code

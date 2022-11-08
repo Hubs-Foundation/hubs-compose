@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  postgrest:
+    command: sh -c "echo do nothing"
+  dialog:
+    command: sh -c "echo do nothing"
+  hubs-admin:
+    command: sh -c "echo do nothing"
+  hubs-client:
+    command: sh -c "echo do nothing"
+  hubs-storybook:
+    command: sh -c "echo do nothing"
+  reticulum:
+    command: sh -c "echo do nothing"
+  spoke:
+    command: sh -c "echo do nothing"
