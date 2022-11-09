@@ -47,7 +47,7 @@ prompts:
 
 ### Admin panel access
 
-To connect to the admin panel you will need to manually promote an account to admin::
+To connect to the admin panel you will need to manually promote an account to admin:
 https://github.com/mozilla/reticulum#6-creating-an-admin-user
 
 ### Command Execution
