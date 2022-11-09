@@ -47,20 +47,8 @@ prompts:
 
 ### Admin panel access
 
-To connect to the admin panel you will need to manually promote an account to admin.
-1. Open https://hubs.local:4000/admin and log in with the account that you want to make admin. It won't let you access the admin panel but the account will get registerd in the database.
-2. Connect to the database using your client of choice. In this example we will be using `psql`
-        
-        psql -U postgres
-3. Connect to the reticulum schema:
-        
-        \c ret_dev
-4. Show the current registered accounts
-        
-        SELECT * FROM ret0.accounts ORDER BY account_id ASC;
-5. Promote the account to admin:
-        
-        UPDATE ret0.accounts SET is_admin = true WHERE account_id = 1234567890
+To connect to the admin panel you will need to manually promote an account to admin::
+https://github.com/mozilla/reticulum#6-creating-an-admin-user
 
 ### Command Execution
 
