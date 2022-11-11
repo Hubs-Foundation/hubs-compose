@@ -42,12 +42,13 @@ certificate at each of the Hubs ports mapped in
 [`docker-compose.yml`](docker-compose.yml).  At the time of this writing, that
 means visiting these links in your web browser and following the prompts:
 
-* [Proxy](https://hubs-proxy.local:4000)
-* [Dialog](https://hubs.local:4443)
-* [Spoke](https://hubs.local:9090)
-* [Hubs Admin](https://hubs.local:8989)
-* [Hubs Client](https://hubs.local:8080)
-* [Reticulum](https://hubs.local:4000)
+* [4000: Proxy](https://hubs-proxy.local:4000)
+* [4443: Dialog](https://hubs.local:4443)
+* [9090: Spoke](https://hubs.local:9090)
+* [8989: Hubs Admin](https://hubs.local:8989)
+* [8080: Hubs Client](https://hubs.local:8080)
+* [4000: Reticulum](https://hubs.local:4000)
+* [5349: Coturn](https://hubs.local:5349)
 
 ### Admin panel access
 
