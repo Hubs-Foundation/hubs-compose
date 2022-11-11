@@ -45,6 +45,11 @@ prompts:
 * [8080: Hubs Client](https://hubs.local:8080)
 * [4000: Reticulum](https://hubs.local:4000)
 
+### Admin panel access
+
+To connect to the admin panel you will need to manually promote an account to admin:
+https://github.com/mozilla/reticulum#6-creating-an-admin-user
+
 ### Command Execution
 
 Common commands can be easily executed inside a running container from your
