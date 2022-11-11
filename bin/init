@@ -10,10 +10,10 @@ bright='\033[1;37m'
 reset='\033[0m'
 
 echo -e "\n${bright}Cloning source repositories${reset}\n"
-git clone https://github.com/mozilla/reticulum.git "$servicesdir/reticulum"
-git clone https://github.com/mozilla/dialog.git "$servicesdir/dialog"
-git clone https://github.com/mozilla/hubs.git "$servicesdir/hubs"
-git clone https://github.com/mozilla/Spoke.git "$servicesdir/spoke"
+[ -d "$servicesdir/reticulum" ] || git clone https://github.com/mozilla/reticulum.git "$servicesdir/reticulum"
+[ -d "$servicesdir/dialog" ] || git clone https://github.com/mozilla/dialog.git "$servicesdir/dialog"
+[ -d "$servicesdir/hubs" ] || git clone https://github.com/mozilla/hubs.git "$servicesdir/hubs"
+[ -d "$servicesdir/spoke" ] || git clone https://github.com/mozilla/Spoke.git "$servicesdir/spoke"
 
 echo -e "\n${bright}Initializing Reticulum${reset}\n"
 mutagen-compose -f "$composefile" run --rm reticulum sh -c 'mix do deps.get, deps.compile, ecto.create'
