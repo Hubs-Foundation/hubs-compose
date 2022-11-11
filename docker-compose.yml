@@ -56,6 +56,17 @@ services:
     volumes:
       - hubs:/code
     working_dir: /code
+  hubs-storybook:
+    build:
+      context: .
+      dockerfile: dockerfiles/hubs.Dockerfile
+      target: dev
+    command: npm run storybook
+    ports:
+      - "6006:6006"
+    volumes:
+      - hubs:/code
+    working_dir: /code
   postgrest:
     build:
       context: .
