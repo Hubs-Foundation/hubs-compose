@@ -1,6 +1,5 @@
 #!/bin/bash
 hash docker-compose || exit 1
-hash tmux || exit 1
 hash watch || exit 1
 
 basedir=$(readlink -f "$(dirname "$0")/..")
