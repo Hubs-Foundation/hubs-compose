@@ -62,6 +62,8 @@ services:
       dockerfile: dockerfiles/hubs.Dockerfile
       target: dev
     command: npm run storybook
+    healthcheck:
+      test: ["CMD", "curl", "-fk", "http://hubs.local:6006"]
     ports:
       - "6006:6006"
     volumes:
