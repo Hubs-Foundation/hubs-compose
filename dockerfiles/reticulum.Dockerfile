@@ -4,7 +4,7 @@ ARG ELIXIR_VERSION=1.8.2
 ARG OTP_VERSION=22.3.4
 
 FROM hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-alpine-${ALPINE_LINUX_VERSION} AS dev
-HEALTHCHECK CMD wget --no-check-certificate https://localhost:4000/link -O /dev/null || exit 1
+HEALTHCHECK CMD wget --no-check-certificate --no-verbose --tries=1 --spider https://localhost:4000/stream-offline.png
 RUN mix do local.hex --force, local.rebar --force
 RUN apk add --no-cache\
     # required by hex\
