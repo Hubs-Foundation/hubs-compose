@@ -4,7 +4,8 @@ Hubs Compose is a Docker Compose setup than can be used to orchestrate all the
 services used by Mozilla Hubs for local development.[^1]
 
 [^1]: This is not a production-ready setup.  It does not account for
-security or scalability.  Additionally the permissions files were generated for development purposes only.
+security or scalability.  Additionally the permissions files were generated for
+development purposes only.
 
 ## Usage
 
@@ -34,21 +35,22 @@ certificates, you can visit https://hubs.local:4000 from your browser.
 ### Self-Signed Certificates
 
 Service communication is encrypted with self-signed Transport Layer Security
-(TLS) certificates.  You will need to accept the certificate at each of the
-ports mapped in [`docker-compose.yml`](docker-compose.yml).  At the time of this
-writing, that means visiting these links in your web browser and following the
-prompts:
+(TLS) certificates.  You will need to accept the proxy certificate and the
+certificate at each of the Hubs ports mapped in
+[`docker-compose.yml`](docker-compose.yml).  At the time of this writing, that
+means visiting these links in your web browser and following the prompts:
 
-* [4443: Dialog](https://hubs.local:4443)
-* [9090: Spoke](https://hubs.local:9090)
-* [8989: Hubs Admin](https://hubs.local:8989)
-* [8080: Hubs Client](https://hubs.local:8080)
-* [4000: Reticulum](https://hubs.local:4000)
+* [Proxy](https://hubs-proxy.local:4000)
+* [Dialog](https://hubs.local:4443)
+* [Spoke](https://hubs.local:9090)
+* [Hubs Admin](https://hubs.local:8989)
+* [Hubs Client](https://hubs.local:8080)
+* [Reticulum](https://hubs.local:4000)
 
 ### Admin panel access
 
-To connect to the admin panel you will need to manually promote an account to admin:
-https://github.com/mozilla/reticulum#6-creating-an-admin-user
+To connect to the admin panel you will need to manually
+[promote an account to admin](https://github.com/mozilla/reticulum#6-creating-an-admin-user).
 
 ### Command Execution
 
