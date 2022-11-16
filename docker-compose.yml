@@ -104,6 +104,7 @@ services:
       target: dev
     command: ./scripts/run-local-reticulum.sh
     environment:
+      CORS_PROXY_SERVER: "hubs-proxy.local:4000"
       INTERNAL_HOSTNAME: spoke
     ports:
       - "9090:9090"
