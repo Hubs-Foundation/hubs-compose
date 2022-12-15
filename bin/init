@@ -1,27 +1,27 @@
 #!/bin/bash
 hash mutagen-compose || exit 1
 
-basedir=$(readlink -f "$(dirname "$0")/..")
+basedir=$(readlink -f "$(dirname "$0")"/..)
+prefix='\n\033[1;37m'
+suffix='\033[0m\n'
+
 servicesdir=$basedir/services
+echo -e ${prefix}Cloning source repositories$suffix
+git clone https://github.com/mozilla/reticulum.git "$servicesdir"/reticulum
+git clone https://github.com/mozilla/dialog.git "$servicesdir"/dialog
+git clone https://github.com/mozilla/hubs.git "$servicesdir"/hubs
+git clone https://github.com/mozilla/Spoke.git "$servicesdir"/spoke
+
 composefile=$basedir/docker-compose.yml
-bright='\033[1;37m'
-reset='\033[0m'
-
-echo -e "\n${bright}Cloning source repositories${reset}\n"
-git clone https://github.com/mozilla/reticulum.git "$servicesdir/reticulum"
-git clone https://github.com/mozilla/dialog.git "$servicesdir/dialog"
-git clone https://github.com/mozilla/hubs.git "$servicesdir/hubs"
-git clone https://github.com/mozilla/Spoke.git "$servicesdir/spoke"
-
-echo -e "\n${bright}Initializing Reticulum${reset}\n" &&
+echo -e ${prefix}Initializing Reticulum$suffix &&
 mutagen-compose -f "$composefile" run --rm reticulum sh -c 'mix do deps.get, deps.compile, ecto.create' &&
-echo -e "\n${bright}Initializing Dialog${reset}\n" &&
+echo -e ${prefix}Initializing Dialog$suffix &&
 mutagen-compose -f "$composefile" run --rm dialog sh -c '[ -d "node_modules" ] || npm ci' &&
-echo -e "\n${bright}Initializing Hubs Admin${reset}\n" &&
+echo -e ${prefix}Initializing Hubs Admin$suffix &&
 mutagen-compose -f "$composefile" run --rm hubs-admin sh -c '[ -d "node_modules" ] || npm ci' &&
-echo -e "\n${bright}Initializing Hubs Client${reset}\n" &&
+echo -e ${prefix}Initializing Hubs Client$suffix &&
 mutagen-compose -f "$composefile" run --rm hubs-client sh -c '[ -d "node_modules" ] || npm ci' &&
-echo -e "\n${bright}Initializing Spoke${reset}\n" &&
+echo -e ${prefix}Initializing Spoke$suffix &&
 mutagen-compose -f "$composefile" run --rm spoke yarn
 
 code=$?
