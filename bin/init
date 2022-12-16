@@ -14,7 +14,8 @@ git clone https://github.com/mozilla/Spoke.git "$servicesdir"/spoke
 
 composefile=$basedir/docker-compose.yml
 echo -e ${prefix}Initializing Reticulum$suffix &&
-mutagen-compose -f "$composefile" run --rm reticulum sh -c 'mix do deps.get, deps.compile, ecto.create' &&
+docker-compose -f "$composefile" build reticulum &&
+mutagen-compose -f "$composefile" run --rm reticulum sh -c 'trapped-mix do deps.get, deps.compile, ecto.create' &&
 echo -e ${prefix}Initializing Dialog$suffix &&
 mutagen-compose -f "$composefile" run --rm dialog sh -c '[ -d "node_modules" ] || npm ci' &&
 echo -e ${prefix}Initializing Hubs Admin$suffix &&

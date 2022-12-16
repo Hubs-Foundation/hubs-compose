@@ -12,4 +12,5 @@ RUN apk add --no-cache\
     # required by hex:phoenix_live_reload\
     inotify-tools
 COPY files/dev-perms.pem /etc/perms.pem
+COPY files/trapped-mix /usr/local/bin/trapped-mix
 WORKDIR /code
