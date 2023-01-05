@@ -3,5 +3,6 @@
 !files/dev-perms.pub.pem
 !files/dev-reticulum-jwk.json
 !files/dev-reticulum.conf
+!files/trapped-mix
 !services/reticulum/priv/dev-ssl.cert
 !services/reticulum/priv/dev-ssl.key
