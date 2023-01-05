@@ -29,6 +29,7 @@ certificates, you can visit https://hubs.local:4000 from your browser.
 * Stop containers `bin/down`
 * Observe running containers with `bin/observe`[^2]
 * Restore all services to a fresh state with `bin/reset`
+* Update all service source code with `bin/services-update`
 
 [^2]: Requires `tmux` and `watch` program files in the user’s path
 
