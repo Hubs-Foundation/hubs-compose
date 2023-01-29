@@ -38,6 +38,10 @@ services:
     volumes:
       - hubs:/code
     working_dir: /code/admin
+    extra_hosts:
+      - "hubs.local:host-gateway"
+      - "hubs-proxy.local:host-gateway"
+      - "host.docker.internal:host-gateway"
   hubs-client:
     build:
       context: .
@@ -54,6 +58,10 @@ services:
     volumes:
       - hubs:/code
     working_dir: /code
+    extra_hosts:
+      - "hubs.local:host-gateway"
+      - "hubs-proxy.local:host-gateway"
+      - "host.docker.internal:host-gateway"
   hubs-storybook:
     build:
       context: .
@@ -92,6 +100,10 @@ services:
     volumes:
       - reticulum:/code
       - retstorage:/code/storage/dev
+    extra_hosts:
+      - "hubs.local:host-gateway"
+      - "hubs-proxy.local:host-gateway"
+      - "host.docker.internal:host-gateway"
   spoke:
     build:
       context: .
@@ -104,6 +116,10 @@ services:
       - "9090:9090"
     volumes:
       - spoke:/code
+    extra_hosts:
+      - "hubs.local:host-gateway"
+      - "hubs-proxy.local:host-gateway"
+      - "host.docker.internal:host-gateway"
 networks:
   default:
     name: mozilla-hubs
