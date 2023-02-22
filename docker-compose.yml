@@ -80,8 +80,8 @@ services:
     command: postgrest reticulum.conf
   reticulum:
     build:
-      context: .
-      dockerfile: dockerfiles/reticulum.Dockerfile
+      context: ./services/reticulum
+      dockerfile: TurkeyDockerfile
       target: dev
     command: sh -c "PERMS_KEY=$$(cat /etc/perms.pem) mix phx.server"
     depends_on:
