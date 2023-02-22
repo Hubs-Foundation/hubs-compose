@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 ARG NODE_VERSION=18
 
-FROM node:${NODE_VERSION} AS dev
+FROM node:${NODE_VERSION}
 HEALTHCHECK CMD curl -f http://localhost:7000/meta || exit 1
 RUN apt-get update && apt-get install -y \
   python3-pip \

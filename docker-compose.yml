@@ -13,7 +13,6 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/dialog.Dockerfile
-      target: dev
     command: npm start
     environment:
       AUTH_KEY: /etc/perms.pub.pem
@@ -29,7 +28,6 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/hubs.Dockerfile
-      target: dev
     command: npm run local
     environment:
       INTERNAL_HOSTNAME: hubs-admin
@@ -45,7 +43,6 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/hubs.Dockerfile
-      target: dev
     command: npm run local
     environment:
       INTERNAL_HOSTNAME: hubs-client
@@ -62,7 +59,6 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/hubs.Dockerfile
-      target: dev
     command: npm run storybook
     healthcheck:
       test: ["CMD", "curl", "-fk", "http://hubs.local:6006"]
@@ -76,7 +72,6 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/postgrest.Dockerfile
-      target: dev
     command: postgrest reticulum.conf
   reticulum:
     build:
@@ -104,7 +99,6 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/spoke.Dockerfile
-      target: dev
     command: ./scripts/run-local-reticulum.sh
     environment:
       CORS_PROXY_SERVER: "hubs-proxy.local:4000"
