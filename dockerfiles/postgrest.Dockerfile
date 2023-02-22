@@ -6,3 +6,4 @@ FROM postgrest/postgrest:${POSTGREST_VERSION}
 # https://github.com/PostgREST/postgrest/blob/b56648147719/nix/tools/docker/default.nix#L24
 COPY --chown=1000:1000 files/dev-reticulum-jwk.json /reticulum-jwk.json
 COPY --chown=1000:1000 files/dev-reticulum.conf /reticulum.conf
+ENTRYPOINT ["postgrest", "reticulum.conf"]

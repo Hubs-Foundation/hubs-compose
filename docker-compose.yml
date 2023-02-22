@@ -13,7 +13,6 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/dialog.Dockerfile
-    command: npm start
     environment:
       AUTH_KEY: /etc/perms.pub.pem
       HTTPS_CERT_FULLCHAIN: /etc/ssl/fullchain.pem
@@ -72,13 +71,11 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/postgrest.Dockerfile
-    command: postgrest reticulum.conf
   reticulum:
     build:
       context: ./services/reticulum
       dockerfile: TurkeyDockerfile
       target: dev
-    command: sh -c "PERMS_KEY=$$(cat /etc/perms.pem) mix phx.server"
     depends_on:
       - db
     environment:
@@ -99,7 +96,6 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/spoke.Dockerfile
-    command: ./scripts/run-local-reticulum.sh
     environment:
       CORS_PROXY_SERVER: "hubs-proxy.local:4000"
       INTERNAL_HOSTNAME: spoke
