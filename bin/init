@@ -20,7 +20,7 @@ echo -e ${prefix}Initializing Dialog$suffix &&
 docker-compose -f "$composefile" build dialog &&
 mutagen-compose -f "$composefile" run --rm dialog npm install --no-save &&
 echo -e ${prefix}Initializing Hubs Admin$suffix &&
-mutagen-compose -f "$composefile" run --rm hubs-admin npm install --no-save &&
+mutagen-compose -f "$composefile" run --rm hubs-admin npm install --force --no-save &&
 echo -e ${prefix}Initializing Hubs Client$suffix &&
 mutagen-compose -f "$composefile" run --rm hubs-client npm install --no-save &&
 echo -e ${prefix}Initializing Spoke$suffix &&
