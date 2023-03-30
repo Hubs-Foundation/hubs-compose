@@ -13,7 +13,7 @@ else
 fi
 
 tmux rename-window -t $session:$window observer
-tmux send-keys -t $session:$window "watch docker-compose -f \'$basedir/docker-compose.yml\' ps" C-m
+tmux send-keys -t $session:$window "watch docker-compose -f \'$basedir/docker-compose.yml\' ps --all" C-m
 tmux split-window -t $session:$window
 tmux send-keys -t $session:$window "docker-compose -f '$basedir/docker-compose.yml' logs --follow --timestamps" C-m
 tmux attach-session -t $session
