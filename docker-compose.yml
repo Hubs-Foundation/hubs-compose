@@ -123,6 +123,7 @@ x-mutagen:
           - ".gitignore"
           - "/certs/"
           - "/node_modules/"
+          - "package-lock.sha512"
         vcs: true
       mode: "two-way-resolved"
     dialog:

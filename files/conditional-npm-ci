@@ -1,0 +1,7 @@
+#!/bin/sh
+checksum='package-lock.sha512'
+
+if ! sha512sum --check --status $checksum 2>/dev/null; then
+  npm ci
+  sha512sum package-lock.json > $checksum
+fi
