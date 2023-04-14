@@ -1,4 +1,5 @@
 *
+!files/conditional-npm-ci
 !files/dev-perms.pub.pem
 !files/dev-reticulum-jwk.json
 !files/dev-reticulum.conf

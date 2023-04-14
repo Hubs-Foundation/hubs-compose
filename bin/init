@@ -18,11 +18,13 @@ docker-compose -f "$composefile" build reticulum &&
 mutagen-compose -f "$composefile" run --rm reticulum sh -c 'trapped-mix do deps.get, deps.compile, ecto.create' &&
 echo -e ${prefix}Initializing Dialog$suffix &&
 docker-compose -f "$composefile" build dialog &&
-mutagen-compose -f "$composefile" run --rm dialog npm install --no-save &&
+mutagen-compose -f "$composefile" run --rm dialog conditional-npm-ci &&
 echo -e ${prefix}Initializing Hubs Admin$suffix &&
-mutagen-compose -f "$composefile" run --rm hubs-admin npm install --no-save &&
+docker-compose -f "$composefile" build hubs-admin &&
+mutagen-compose -f "$composefile" run --rm hubs-admin conditional-npm-ci &&
 echo -e ${prefix}Initializing Hubs Client$suffix &&
-mutagen-compose -f "$composefile" run --rm hubs-client npm install --no-save &&
+docker-compose -f "$composefile" build hubs-client &&
+mutagen-compose -f "$composefile" run --rm hubs-client conditional-npm-ci &&
 echo -e ${prefix}Initializing Spoke$suffix &&
 mutagen-compose -f "$composefile" run --rm spoke yarn install
 
