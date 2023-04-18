@@ -10,7 +10,6 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/coturn.Dockerfile
-      target: dev
     entrypoint: /bin/sh /entrypoint.sh
     volumes:
       - coturn:/var/lib/coturn
@@ -115,8 +114,6 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/postgrest.Dockerfile
-      target: dev
-    command: postgrest reticulum.conf
     networks:
       hubs_network:
   reticulum:
