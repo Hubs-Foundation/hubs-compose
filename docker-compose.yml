@@ -10,7 +10,6 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/coturn.Dockerfile
-    entrypoint: /bin/sh /entrypoint.sh
     volumes:
       - coturn:/var/lib/coturn
     ports:
