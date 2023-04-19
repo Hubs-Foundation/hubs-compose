@@ -15,8 +15,8 @@ services:
     ports:
       - "5349:5349"
       # This should be the same as MIN_PORT MAX_PORT.
-      # You might neeed to increase this number depending on how many client you are connecting.
-      # (Keep the ports range small to improve container statup time)
+      # You might neeed to increase this number depending on how many clients you are connecting.
+      # (Keep the ports range small to improve container startup time)
       - "50000-50050:50000-50050"
       - "50000-50050:50000-50050/udp"
     networks:
