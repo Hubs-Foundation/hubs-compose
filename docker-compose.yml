@@ -49,8 +49,8 @@ services:
     ports:
       - "4443:4443"
       # This should be the same as MEDIASOUP_MIN_PORT and MEDIASOUP_MAX_PORT
-      # You might neeed to increase this number depending on how many client you are connecting.
-      # (Keep the ports range small to improve container statup time)
+      # You might neeed to increase this number depending on how many clients you are connecting.
+      # (Keep the ports range small to improve container startup time)
       - "40000-40050:40000-40050"
       - "40000-40050:40000-40050/udp"
     volumes:
