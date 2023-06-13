@@ -57,6 +57,10 @@ init: check clone reticulum dialog hubs-admin hubs-client spoke
 up:
 	mutagen-compose -f $(composefile) up --build --detach
 
+.PHONY: down
+down:
+	mutagen-compose -f $(composefile) down
+
 .PHONY: clean
 clean:
 	rm -rf $(servicesdir)
