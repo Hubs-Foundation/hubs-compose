@@ -61,7 +61,15 @@ up:
 down:
 	mutagen-compose -f $(composefile) down
 
+.PHONY: reset
+reset: clean-reticulum init
+
 .PHONY: clean
 clean:
 	rm -rf $(servicesdir)
+
+.PHONY: clean-reticulum
+clean-reticulum:
+	mutagen-compose -f $(composefile) down --volumes --rmi local && \
+		rm -rf $(basedir)/services/reticulum/deps
 
