@@ -13,10 +13,10 @@ check:
 .PHONY: clone
 clone:
 	@printf "$(prefix)Cloning source repositories$(suffix)"
-	git clone https://github.com/mozilla/reticulum.git $(servicesdir)/reticulum
-	git clone https://github.com/mozilla/dialog.git $(servicesdir)/dialog
-	git clone https://github.com/mozilla/hubs.git $(servicesdir)/hubs
-	git clone https://github.com/mozilla/Spoke.git $(servicesdir)/spoke
+	-git clone https://github.com/mozilla/reticulum.git $(servicesdir)/reticulum
+	-git clone https://github.com/mozilla/dialog.git $(servicesdir)/dialog
+	-git clone https://github.com/mozilla/hubs.git $(servicesdir)/hubs
+	-git clone https://github.com/mozilla/Spoke.git $(servicesdir)/spoke
 
 .PHONY: reticulum
 reticulum:
