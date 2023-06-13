@@ -21,16 +21,42 @@ certificates, you can visit https://hubs.local:4000 from your browser.
         127.0.0.1   hubs.local
         127.0.0.1   hubs-proxy.local
 
-4. Initialize the services with `bin/init`
+4. Initialize the services
+```bash
+$ make
+```
 
 ### Orchestration
 
-* Start containers with `bin/up`
-* Stop containers `bin/down`
-* Observe running containers with `bin/observe`[^2]
-* Restore all services to a fresh state with `bin/reset`
-* Update all service source code with `bin/services-update`
-* Update service dependencies with `bin/init`
+* Start containers
+```bash
+$ make up
+```
+
+* Stop containers
+```bash
+$ make down
+```
+
+* Observe running containers [^2]
+```bash
+$ make observe
+```
+
+* Restore all services to a fresh state
+```bash
+$ make reset
+```
+
+* Update all service source code
+```bash
+$ make services-update
+```
+
+* Update service dependencies
+```bash
+$ make init
+```
 
 [^2]: Requires `tmux` and `watch` program files in the user’s path
 
