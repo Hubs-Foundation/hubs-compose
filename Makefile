@@ -68,3 +68,11 @@ clean: check
 	mutagen-compose -f $(composefile) down --volumes --rmi local && \
 		rm -rf $(basedir)/services/reticulum/deps
 
+.PHONY: observe
+observe:
+	bin/observe
+
+.PHONY: services-update
+services-update:
+	bin/services-update
+
