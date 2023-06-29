@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-ARG NODE_VERSION=18
+ARG NODE_VERSION=16
 
 FROM node:${NODE_VERSION}
 HEALTHCHECK CMD curl -f http://localhost:7000/meta || exit 1
