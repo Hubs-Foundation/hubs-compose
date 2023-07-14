@@ -9,6 +9,8 @@ services:
     user: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
   dialog:
     build:
       context: .
@@ -18,8 +20,16 @@ services:
       HTTPS_CERT_FULLCHAIN: /etc/ssl/fullchain.pem
       HTTPS_CERT_PRIVKEY: /etc/ssl/privkey.pem
       INTERACTIVE: "false"
+      MEDIASOUP_MIN_PORT: 40000
+      MEDIASOUP_MAX_PORT: 40050
+      MEDIASOUP_ANNOUNCED_IP: PRIVATE_NETWORK_IP
     ports:
       - "4443:4443"
+      # This should be the same as MEDIASOUP_MIN_PORT and MEDIASOUP_MAX_PORT
+      # You might neeed to increase this number depending on how many clients you are connecting.
+      # (Keep the ports range small to improve container startup time)
+      - "40000-40050:40000-40050"
+      - "40000-40050:40000-40050/udp"
     volumes:
       - dialog:/code
     working_dir: /code

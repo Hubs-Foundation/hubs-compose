@@ -8,4 +8,4 @@ mutagen daemon start
 echo -e ${prefix}The mutagen daemon will stay running until you stop it manually with \`mutagen daemon stop\`.$suffix
 
 echo -e ${prefix}Running mutagen-compose...$suffix
-mutagen-compose -f "$basedir"/docker-compose.yml up --build --detach
+PRIVATE_NETWORK_IP=$(ifconfig -l | xargs -n1 ipconfig getifaddr) mutagen-compose -f "$basedir"/docker-compose.yml up --build --detach
