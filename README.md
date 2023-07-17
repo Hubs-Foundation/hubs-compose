@@ -9,14 +9,21 @@ development purposes only.
 
 ## Windows Prerequisites
 ### Summary
-- [Install WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)
+- (Optional) [Install WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)
 - Ensure Git checks out Unix line endings
 - Use Git Bash to run scripts
 
-### Install WSL2
-Docker Desktop runs more quickly when it can use a WSL2-based engine. There are also other benefits to installing WSL2, including being able to run scripts and programs that your Unix friends share with you.
+### (Optional) Install WSL2
+**Docker Desktop runs more quickly** when it can use its WSL2-based engine. Docker Desktop can only use its WSL2 engine if WSL2 is installed.
+
+There are also other benefits to installing WSL2, including being able to run scripts and programs that your Unix developer friends share with you.
 
 To install WSL2, follow Microsoft's documentation here: [Install Linux on Windows with WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
+
+#### ⚠️ Potential Conflict
+If you plan to run Docker Desktop on Windows, _and_ you want to take advantage of Docker Desktop's faster WSL2 engine, _and_ you already have WSL2 installed, you need to first [uninstall any previous versions of Docker Engine and CLI installed directly through WSL2](https://docs.docker.com/desktop/wsl/#turn-on-docker-desktop-wsl-2).
+
+You can [read more about Docker Desktop + WSL2 on Docker's website.](https://docs.docker.com/desktop/wsl/#turn-on-docker-desktop-wsl-2)
 
 ### Use Unix Line Endings
 Some scripts used to run `hubs-compose` rely on those scripts containing Unix line endings. If you're running `hubs-compose` on Windows, you may need to change your Git line endings setting to ensure your local files include Unix-style line endings.
@@ -36,8 +43,9 @@ certificates, you can visit https://hubs.local:4000 from your browser.
 ### Initial Setup
 
 1. [Install Docker Compose](https://docs.docker.com/compose/install)
-2. [Install Mutagen Compose](https://github.com/mutagen-io/mutagen-compose#system-requirements)
-3. [Install Mutagen](https://mutagen.io/documentation/introduction/installation)
+2. [Install Mutagen](https://mutagen.io/documentation/introduction/installation)
+3. [Install Mutagen Compose](https://github.com/mutagen-io/mutagen-compose#system-requirements)
+  - Ensure that the version of Mutagen Compose you're installing matches the version of Mutagen that you installed. (If you install the latest versions at the same time, they will "match".)
 4. Add these entries to your hosts file:
 
         127.0.0.1   hubs.local
@@ -48,9 +56,8 @@ certificates, you can visit https://hubs.local:4000 from your browser.
 
 ### Orchestration
 
-First, ensure the Mutagen daemon is running with `mutagen daemon start`.
-
 * Start containers with `bin/up`
+  - `bin/up` starts the Mutagen daemon automatically. The Mutagen daemon will stay running until you stop it manually with `mutagen daemon stop`.
 * Stop containers `bin/down`
 * Observe running containers with `bin/observe`[^2]
 * Restore all services to a fresh state with `bin/reset`
