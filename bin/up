@@ -1,3 +1,11 @@
 #!/bin/bash
 basedir=$(dirname "$0")/..
+
+prefix='\n\033[1;37m'
+suffix='\033[0m\n'
+echo -e ${prefix}Starting mutagen daemon...$suffix
+mutagen daemon start
+echo -e ${prefix}The mutagen daemon will stay running until you stop it manually with \`mutagen daemon stop\`.$suffix
+
+echo -e ${prefix}Running mutagen-compose...$suffix
 mutagen-compose -f "$basedir"/docker-compose.yml up --build --detach
