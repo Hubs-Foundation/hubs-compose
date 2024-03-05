@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-ARG POSTGREST_VERSION=v9.0.1.20220802
+ARG POSTGREST_VERSION=v9.0.1
 
 FROM postgrest/postgrest:${POSTGREST_VERSION}
 # User 1000 comes from
