@@ -3,5 +3,8 @@
 !files/dev-perms.pub.pem
 !files/dev-reticulum-jwk.json
 !files/dev-reticulum.conf
+!files/coturn/entrypoint.sh
+!files/coturn/certs/cert.pem
+!files/coturn/certs/key.pem
 !services/reticulum/priv/dev-ssl.cert
 !services/reticulum/priv/dev-ssl.key

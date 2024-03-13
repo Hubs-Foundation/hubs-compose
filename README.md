@@ -80,6 +80,7 @@ means visiting these links in your web browser and following the prompts:
 * [Hubs Admin](https://hubs.local:8989)
 * [Hubs Client](https://hubs.local:8080)
 * [Reticulum](https://hubs.local:4000)
+* [Coturn](https://hubs.local:5349)
 
 ### Admin panel access
 
