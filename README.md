@@ -86,6 +86,25 @@ means visiting these links in your web browser and following the prompts:
 To connect to the admin panel you will need to manually
 [promote an account to admin](https://github.com/mozilla/reticulum#6-creating-an-admin-user).
 
+## Troubleshooting
+
+Experiencing issues with `hubs-compose`? Follow these steps to diagnose and resolve
+common problems:
+
+1. Ensure your operating system, internet browser, and Docker installation are
+up-to-date.
+2. Update your local copy of the `hubs-compose` repository and all related service
+source codes to the latest versions.
+3. If `bin/init` presents problems, remove any existing `hubs-compose` containers,
+images, and volumes, then retry the command. Check your internet connection for
+adequate speed to prevent timeouts during large downloads.
+4. For SSL certificate issues, clearing your local browser cache may resolve the
+problem.
+5. If the above steps do not resolve the issue, try restarting your machine.
+
+If problems persist after these steps, consider reaching out for community support
+or filing an issue in the repository.
+
 ### Command Execution
 
 Common commands can be easily executed inside a running container from your
