@@ -21,7 +21,7 @@ This process will cover the following steps...
 - [Docker Compose](https://docs.docker.com/compose/install), I used `Docker Compose version 2.26.1`
 - [Mutagen](https://mutagen.io/documentation/introduction/installation), I used `Mutagen version 0.17.5`
 - [Mutagen Compose](https://github.com/mutagen-io/mutagen-compose#system-requirements)
-- Add `127.0.0.01 hubs.local` and `127.0.0.01 hubs-proxy.local` to your local hosts. I did this by running `nano /etc/hosts`
+- Add `127.0.0.1 hubs.local` and `127.0.0.1 hubs-proxy.local` to your local hosts. I did this by running `nano /etc/hosts`
 - Clone this repo onto your device with `git clone https://github.com/mozilla/hubs-compose`
 
 ### Installation with Custom Repos
