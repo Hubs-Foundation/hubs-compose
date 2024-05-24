@@ -1,7 +1,7 @@
 # Hubs Compose
 
 Hubs Compose is a Docker Compose setup than can be used to orchestrate all the
-services used by Mozilla Hubs for local development.[^1]
+services used by Hubs for local development.[^1]
 
 [^1]: This is not a production-ready setup.  It does not account for
 security or scalability.  Additionally the permissions files were generated for
