@@ -1,7 +1,7 @@
 # Hubs Compose
 
 Hubs Compose is a Docker Compose setup than can be used to orchestrate all the
-services used by Hubs for local development.[^1]
+services used by Hubs for local development.[^1]  It runs on Windows, MacOS or Linux.
 
 [^1]: This is not a production-ready setup.  It does not account for
 security or scalability.  Additionally the permissions files were generated for
@@ -43,7 +43,7 @@ certificates, you can visit https://hubs.local:4000 from your browser.
 ### Initial Setup
 
 1. [Install Docker Compose](https://docs.docker.com/compose/install)
-2. [Install Mutagen](https://mutagen.io/documentation/introduction/installation)
+2. [Install Mutagen](https://mutagen.io/documentation/introduction/installation) [The scripts start the Mutagen daemon, so it is *not* necessary to configure your system to automatically start on boot.]
 3. [Install Mutagen Compose](https://github.com/mutagen-io/mutagen-compose#system-requirements)
   - Ensure that the version of Mutagen Compose you're installing matches the version of Mutagen that you installed. (If you install the latest versions at the same time, they will "match".)
 4. Add these entries to your hosts file:
@@ -78,13 +78,21 @@ means visiting these links in your web browser and following the prompts:
 * [Dialog](https://hubs.local:4443)
 * [Spoke](https://hubs.local:9090)
 * [Hubs Admin](https://hubs.local:8989)
-* [Hubs Client](https://hubs.local:8080)
-* [Reticulum](https://hubs.local:4000)
+* [Hubs Client](https://hubs.local:8080) Used to connect to Hubs rooms
+* [Reticulum](https://hubs.local:4000) Used for the Admin Panel and Spoke
+
+### Logging In
+
+See [the QuickStart guide](./guides/quick-start.md) to log in without having SMTP functional.
 
 ### Admin panel access
 
-To connect to the admin panel you will need to manually
+To connect to the admin panel you will need to `cd` to `services/reticulum` and manually
 [promote an account to admin](https://github.com/Hubs-Foundation/reticulum#6-creating-an-admin-user).
+
+Access the admin panel at https://hubs.local:4000/admin. You may need to re-accept your magic-link email in your reticulum container's logs.
+
+Access Spoke at https://hubs.local:4000/spoke
 
 ## Troubleshooting
 
