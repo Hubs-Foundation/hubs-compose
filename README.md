@@ -1,7 +1,7 @@
 # Hubs Compose
 
 Hubs Compose is a Docker Compose setup that can be used to orchestrate all the
-services used by Hubs for local development.
+services used by Hubs for local development. It runs on Windows, MacOS or Linux.
 
 > [!IMPORTANT]
 > This is not a production-ready setup.  It does not account for
@@ -11,7 +11,7 @@ development purposes only.
 ## Prerequisites
 * [Docker](https://docs.docker.com/engine/install/binaries/) (Linux note: it is expected that you add your user to the `docker` group and that you don't run the commands with sudo)
 * [Docker Compose](https://docs.docker.com/compose/install)
-* [Mutagen](https://mutagen.io/documentation/introduction/installation) (Linux note: installing the binaries manually in `/usr/local/bin` is probably the best route)
+* [Mutagen](https://mutagen.io/documentation/introduction/installation) (Linux note: installing the binaries manually in `/usr/local/bin` is probably the best route)  The scripts start the Mutagen daemon, so it is *not* necessary to configure your system to automatically start mutagen on boot.
 * [Mutagen Compose](https://github.com/mutagen-io/mutagen-compose#system-requirements) (Linux note: installing the binaries manually in `/usr/local/bin` is probably the best route)
 
 > [!NOTE]
@@ -62,9 +62,9 @@ Some scripts used to run `hubs-compose` are meant to run in a Unix-like `bash` s
 ## Initial Setup
 1. Initialize the services with `bin/init`
 2. Start the containers with `bin/up`
-3. Self-Sign the certificates (see the *Self-Signed Certificates* section below)
-4. Sign into Hubs (see the *Signing into Hubs* section below)
-5. Create an admin user (see the *Admin panel access* section below)
+3. Self-Sign the certificates (see the [Self-Signed Certificates section](#self-signed-certificates) below)
+4. Sign into Hubs (see the [Signing into Hubs section](#signing-into-hubs) below)
+5. Create an admin user (see the [Admin panel access section](#admin-panel-access) below)
 
 
 ## Usage
@@ -82,7 +82,7 @@ Some scripts used to run `hubs-compose` are meant to run in a Unix-like `bash` s
 * Stop the containers with `bin/down`
 * Observe running containers with `bin/observe`[^1]
 * Reset all the containers/services to a fresh state with `bin/reset`
-  - This deletes the containers, volumes, and images (along with any of the dependencies stored on them) and recreates them.  As a result, you will likely need to redo most of the steps in the *Initial Setup* section above.
+  - This deletes the containers, volumes, and images (along with any of the dependencies stored on them) and recreates them.  As a result, you will likely need to redo most of the steps in the [Initial Setup section](#initial-setup) above.
   - A hard reset can be achieved by running `bin/down` and then `docker system prune -af && docker volume prune -af` before running `bin/reset` (this will clear everything, including the docker build cache, so you can make sure nothing is getting reused from the cache)
     - Note: a hard reset will affect your whole Docker ecosystem and not just the Hubs services.  If you have any containers/images/volumes/etc. that aren't running, but you still want to keep DO NOT PERFORM A HARD RESET.
 * Update all non-customized service source code with `bin/services-update`
@@ -134,7 +134,7 @@ You can shell into the reticulum container and start an iex console by running `
 > [!NOTE]
 > You must have signed in/created an account previously in order to promote it to admin.  By default, the first account you sign in with/create will end up being the one promoted to be the admin account.
 
-After you have promoted an account to admin, clear your local storage (see the *Clearing Local Storage* section below) and then sign in again.
+After you have promoted an account to admin, clear your local storage (see the [Clearing Local Storage section](#clearing-local-storage) below) and then sign in again.
 
 ### Useful Docker commands
 
@@ -177,12 +177,12 @@ source codes to the latest versions.
 * If `bin/init` presents problems, remove any existing `hubs-compose` containers,
 images, and volumes, then retry the command.
 * For SSL certificate issues, clearing your local browser cache may resolve the
-problem (see the *Hard Refreshing A Page* section below).
+problem (see the [Hard Refreshing A Page section](#hard-refreshing-a-page) below).
 * Make sure you are using `hubs.local` and not `localhost`, Hubs Compose requires that you use `hubs.local`.
 * If you are using the Brave browser, or privacy plugins, and you run into issues, make sure to turn Brave's shields off/disable the privacy plugins for both `hubs.local` and `hubs-proxy.local`.
 * If you see unexpected errors printed to the page, try refreshing (it may take a couple times).
   - Possible causes for this include: changing the code (this is normal, you'll likely need to refresh twice).
-* If you see errors printed to the page (not the console), and refreshing the page hasn't worked, try clearing your local storage for the page (see the *Clearing Local Storage* section below).
+* If you see errors printed to the page (not the console), and refreshing the page hasn't worked, try clearing your local storage for the page (see the [Clearing Local Storage section](#clearing-local-storage) below).
 * If you see errors printed to the page (not the console) talking about not being able to read the credentials after clearing your local storage, try refreshing the page.
 * If you see errors printed to the page after waking your computer up from sleep, try restarting Hubs Compose.
 * If you see errors printed to the page (not the console) complaining that dependencies like `bitecs` and `three` can't be found, and clearing the local storage/refreshing the page/restarting Hubs Compose hasn't worked, try running `bin/reset`.
