@@ -15,7 +15,7 @@ development purposes only.
 * [Mutagen Compose](https://github.com/mutagen-io/mutagen-compose#system-requirements) (Linux note: installing the binaries manually in `/usr/local/bin` is probably the best route)
 
 > [!NOTE]
-> Mac Hombrew Formulae for those wanting to avoid installing the proprietary Docker Desktop on Macs.
+> Mac Homebrew Formulae for those wanting to avoid installing the proprietary Docker Desktop on Macs.
 > https://formulae.brew.sh/formula/docker
 > https://formulae.brew.sh/formula/docker-compose
 
@@ -181,7 +181,7 @@ problem (see the *Hard Refreshing A Page* section below).
 * Make sure you are using `hubs.local` and not `localhost`, Hubs Compose requires that you use `hubs.local`.
 * If you are using the Brave browser, or privacy plugins, and you run into issues, make sure to turn Brave's shields off/disable the privacy plugins for both `hubs.local` and `hubs-proxy.local`.
 * If you see unexpected errors printed to the page, try refreshing (it may take a couple times).
-  - possible causes for this include: changing the code (this is normal, you'll likely need to refresh twice)
+  - Possible causes for this include: changing the code (this is normal, you'll likely need to refresh twice).
 * If you see errors printed to the page (not the console), and refreshing the page hasn't worked, try clearing your local storage for the page (see the *Clearing Local Storage* section below).
 * If you see errors printed to the page (not the console) talking about not being able to read the credentials after clearing your local storage, try refreshing the page.
 * If you see errors printed to the page after waking your computer up from sleep, try restarting Hubs Compose.
