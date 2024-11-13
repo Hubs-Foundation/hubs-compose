@@ -82,7 +82,7 @@ Some scripts used to run `hubs-compose` are meant to run in a Unix-like `bash` s
 * Stop the containers with `bin/down`
 * Observe running containers with `bin/observe`[^1]
 * Reset all the containers/services to a fresh state with `bin/reset`
-  - This deletes the containers, volumes, and images (along with any of the dependencies stored on them) and recreates them.
+  - This deletes the containers, volumes, and images (along with any of the dependencies stored on them) and recreates them.  As a result, you will likely need to redo most of the steps in the *Initial Setup* section above.
   - A hard reset can be achieved by running `bin/down` and then `docker system prune -af && docker volume prune -af` before running `bin/reset` (this will clear everything, including the docker build cache, so you can make sure nothing is getting reused from the cache)
     - Note: a hard reset will affect your whole Docker ecosystem and not just the Hubs services.  If you have any containers/images/volumes/etc. that aren't running, but you still want to keep DO NOT PERFORM A HARD RESET.
 * Update all non-customized service source code with `bin/services-update`
