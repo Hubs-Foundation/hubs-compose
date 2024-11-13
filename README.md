@@ -189,17 +189,8 @@ problem (see the *Hard Refreshing A Page* section below).
   - Note: if you know what service is likely causing the problem, you can try to re-download all the dependencies for a single service by finding the mutagen compose command for the service in `bin/init` and running that on its own in a terminal (you'll probably have to replace `conditional-npm-ci` with `npm ci`).
 * If you no longer get the reticulum email link when trying to log in, restart Hubs Compose.
 * Reticulum needs to be restarted every 24 hours because JWT expires, restarting Hubs Compose fixes it.  If you see errors relating to JWT, this is why.
-* If you are seeing timeouts when downloading dependencies (it's probably because of this bug: https://github.com/npm/cli/issues/3078).  Try replacing `npm ci` in the `files/conditional-npm-ci` script with the following, and then running `bin/reset`:
-```
-npm config set fetch-timeout 1800000
-npm config set fetch-retries 100
-npm ci
-exitcode="$?"
-while [ "$exitcode" -eq 1 ]; do
-  npm ci
-  exitcode="$?"
-done
-```
+* If you are seeing timeouts when downloading dependencies (it's probably because of this bug: https://github.com/npm/cli/issues/3078), try replacing the `conditional-npm-ci` references in `bin/init` with the following, and then running `bin/init` or `bin/reset` again (note: you may want to restore the original `conditional-npm-ci` command once you are past this error to prevent an infinite loop if a different error comes up on a future run):
+`sh -c 'checksum='package-lock.sha512'; if ! sha512sum --check --status $checksum 2>/dev/null; then npm config set fetch-timeout 1800000; npm config set fetch-retries 100; npm ci; exitcode="$?"; while [ "$exitcode" -eq 1 ]; do npm ci; exitcode="$?"; done; sha512sum package-lock.json > $checksum; fi'`
 * if you are stuck on loading the room, try restarting Hubs Compose.
 * If the above steps do not resolve the issue, try restarting your browser.
 * If the above steps do not resolve the issue, try restarting docker.
