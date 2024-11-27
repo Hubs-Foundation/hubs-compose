@@ -1,6 +1,16 @@
 #!/bin/bash
 basedir=$(readlink -f "$(dirname "$0")"/..)
 
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    IP_ADDR=$(hostname -i | cut -f1)
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    IP_ADDR=$(ipconfig getifaddr en1)
+    if [[ -z "$IP_ADDR" ]]; then
+      IP_ADDR=$(ipconfig getifaddr en0)
+    fi
+fi
+export PRIVATE_NETWORK_IP=$IP_ADDR
+
 mutagen-compose -f "$basedir"/docker-compose.yml down --volumes --rmi local &&
 rm -rf "$basedir"/services/reticulum/deps &&
 "$basedir"/bin/init
