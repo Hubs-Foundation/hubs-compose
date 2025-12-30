@@ -135,7 +135,7 @@ x-mutagen:
           - "/node_modules/"
           - "package-lock.sha512"
         vcs: true
-      mode: "two-way-resolved"
+      mode: "one-way-replica"
     dialog:
       alpha: ./services/dialog
       beta: "volume://dialog"
