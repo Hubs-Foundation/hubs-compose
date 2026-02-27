@@ -123,7 +123,23 @@ means visiting these links in your web browser and following the prompts:
 
 Example Reticulum log entry for the magic link email:
 
-`%Bamboo.Email{from: {nil, "info@hubs-mail.com"}, to: [nil: "<your@email.address>"], cc: [], bcc: [], subject: "Your  Sign-In Link", html_body: nil, text_body: "To sign-in to , please visit the link below. If you did not make this request, please ignore this e-mail.\n\n https://hubs.local:4000/?auth_origin=hubs&auth_payload=GPk2GOEbz9AcHROddvD%2F20%2B11FcKH%2FbKTj62gPCyUgjpeogFp94zpQoBh9nrBiY%2F16KYiGka0dseW9mDlN7n&auth_token=ca3ff98f63c4b7709d0b1c01a217f414&auth_topic=auth%3Add0ec69c-bfa2-4994-b183-aca1377b2f11", headers: %{}, attachments: [], assigns: %{}, private: %{}}`
+```
+reticulum-1  | [info] New email delivered
+reticulum-1  | From: "hubs.local" <info@hubs-mail.com>
+reticulum-1  | To: <your@email.address>
+reticulum-1  | Subject: Your hubs.local Sign-In Link
+reticulum-1  |
+reticulum-1  | Text body:
+reticulum-1  | To sign-in to hubs.local, please visit the link below. If you did not make this request, please ignore this e-mail.
+reticulum-1  |
+reticulum-1  |  https://hubs.local:4000/?auth_origin=hubs&auth_payload=rz9azqj5lmn2f23G510CIWJgglvfkRZypzUo49UblDDVzjjboUR2BZbO4luvrAhrKrJ8QDCOQgznbbPp7sMieyMj0w8s4w%3D%3D&auth_token=08f68c910655562d98074bd6d624583d&auth_topic=auth%3A39efbc60-924f-4e6a-ae1b-8412af018e99
+reticulum-1  |
+reticulum-1  | HTML body:
+reticulum-1  |
+reticulum-1  |
+reticulum-1  | [debug] HANDLED auth_request INCOMING ON auth:39efbc60-924f-4e6a-ae1b-8412af018e99 (RetWeb.AuthChannel) in 60ms
+reticulum-1  |   Parameters: %{"email" => "<your@email.address>", "origin" => "hubs"}
+```
 
 ### Admin panel access
 
