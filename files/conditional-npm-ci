@@ -1,4 +1,9 @@
 #!/bin/sh
+# This is no longer used because it will block retrying to install
+# dependencies if they didn't install correctly the first time,
+# plus it's not as useful for saving time now that services can be
+# initialized individually.
+
 checksum='package-lock.sha512'
 
 if ! sha512sum --check --status $checksum 2>/dev/null; then
