@@ -1,8 +1,12 @@
 #!/bin/bash
 basedir=$(dirname "$0")/..
+
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    IP_ADDR=$(ifconfig -l | xargs -n1 ipconfig getifaddr)
+    IP_ADDR=$(hostname -i | cut -f1)
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-    IP_ADDR=$(ip route get 1 | awk '{print $NF;exit}')
+    IP_ADDR=$(ipconfig getifaddr en1)
+    if [[ -z "$IP_ADDR" ]]; then
+      IP_ADDR=$(ipconfig getifaddr en0)
+    fi
 fi
-PRIVATE_NETWORK_IP=${ADDR} mutagen-compose -f "$basedir"/docker-compose.yml down
+PRIVATE_NETWORK_IP=${IP_ADDR} mutagen-compose -f "$basedir"/docker-compose.yml down
