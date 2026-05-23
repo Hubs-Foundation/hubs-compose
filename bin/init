@@ -1,33 +1,122 @@
 #!/bin/bash
+
+# GUARD
 hash mutagen-compose || exit 1
 
+
+# PREP WORK
 basedir=$(readlink -f "$(dirname "$0")"/..)
+servicesdir=$basedir/services
+composefile=$basedir/docker-compose.yml
+
+arguments=( "$@" )
+services=()
+forcenpmretries="false"
+code=0
 prefix='\n\033[1;37m'
 suffix='\033[0m\n'
 
-servicesdir=$basedir/services
+for argument in "${arguments[@]}"; do
+    if [ "$argument" == "-f" ]; then
+        forcenpmretries="true"
+    else
+        services+=($argument)
+    fi
+done
+
+
+# UTILITY FUNCTIONS
+in_services () {
+    for service in "${services[@]}"; do
+        if [ "$service" == "$1" ]; then
+            return 0; # success in bash
+        fi
+    done
+    return 1; # failure in bash
+}
+
+
+# MAIN SCRIPT
 echo -e ${prefix}Cloning source repositories$suffix
 git clone https://github.com/Hubs-Foundation/reticulum.git "$servicesdir"/reticulum
 git clone https://github.com/Hubs-Foundation/dialog.git "$servicesdir"/dialog
 git clone https://github.com/Hubs-Foundation/hubs.git "$servicesdir"/hubs
 git clone https://github.com/Hubs-Foundation/Spoke.git "$servicesdir"/spoke
 
-composefile=$basedir/docker-compose.yml
-echo -e ${prefix}Initializing Reticulum$suffix &&
-docker-compose -f "$composefile" build reticulum &&
-mutagen-compose -f "$composefile" run --rm reticulum sh -c 'trapped-mix do deps.get, deps.compile, ecto.create' &&
-echo -e ${prefix}Initializing Dialog$suffix &&
-docker-compose -f "$composefile" build dialog &&
-mutagen-compose -f "$composefile" run --rm dialog conditional-npm-ci &&
-echo -e ${prefix}Initializing Hubs Admin$suffix &&
-docker-compose -f "$composefile" build hubs-admin &&
-mutagen-compose -f "$composefile" run --rm hubs-admin conditional-npm-ci &&
-echo -e ${prefix}Initializing Hubs Client$suffix &&
-docker-compose -f "$composefile" build hubs-client &&
-mutagen-compose -f "$composefile" run --rm hubs-client conditional-npm-ci &&
-echo -e ${prefix}Initializing Spoke$suffix &&
-mutagen-compose -f "$composefile" run --rm spoke yarn install
+if [ ${#services[@]} -eq 0 ] || in_services "reticulum"; then
+    echo -e ${prefix}Initializing Reticulum$suffix &&
+    docker-compose -f "$composefile" build reticulum &&
+    mutagen-compose -f "$composefile" run --rm reticulum sh -c 'trapped-mix do deps.get, deps.compile, ecto.create'
+    exitcode=$?
+    if [ $exitcode -ne 0 ]; then
+        echo "Initializing Reticulum failed with exit code $exitcode"
+        code=$(($code + 1))
+    fi
+fi
 
-code=$?
+if [ ${#services[@]} -eq 0 ] || in_services "dialog"; then
+    if [ "$forcenpmretries" == "true" ]; then
+        echo -e ${prefix}Initializing Dialog And Forcing npm ci To Retry If It Fails$suffix &&
+        docker-compose -f "$composefile" build dialog &&
+        mutagen-compose -f "$composefile" run --rm dialog sh -c 'npm config set fetch-timeout 1800000; npm config set fetch-retries 100; npm ci; exitcode="$?"; while [ "$exitcode" -eq 1 ]; do npm ci; exitcode="$?"; done'
+    else
+        echo -e ${prefix}Initializing Dialog$suffix &&
+        docker-compose -f "$composefile" build dialog &&
+        mutagen-compose -f "$composefile" run --rm dialog npm ci
+    fi
+    exitcode=$?
+    if [ $exitcode -ne 0 ]; then
+        echo "Initializing Dialog failed with exit code $exitcode"
+        code=$(($code + 2))
+    fi
+fi
+
+if [ ${#services[@]} -eq 0 ] || in_services "hubs" || in_services "hubs-admin"; then
+    if [ "$forcenpmretries" == "true" ]; then
+        echo -e ${prefix}Initializing Hubs Admin And Forcing npm ci To Retry If It Fails$suffix &&
+        docker-compose -f "$composefile" build hubs-admin &&
+        mutagen-compose -f "$composefile" run --rm hubs-admin sh -c 'npm config set fetch-timeout 1800000; npm config set fetch-retries 100; npm ci; exitcode="$?"; while [ "$exitcode" -eq 1 ]; do npm ci; exitcode="$?"; done'
+    else
+        echo -e ${prefix}Initializing Hubs Admin$suffix &&
+        docker-compose -f "$composefile" build hubs-admin &&
+        mutagen-compose -f "$composefile" run --rm hubs-admin npm ci
+    fi
+    exitcode=$?
+    if [ $exitcode -ne 0 ]; then
+        echo "Initializing Hubs Admin failed with exit code $exitcode"
+        code=$(($code + 4))
+    fi
+fi
+
+if [ ${#services[@]} -eq 0 ] || in_services "hubs" || in_services "hubs-client"; then
+    if [ "$forcenpmretries" == "true" ]; then
+        echo -e ${prefix}Initializing Hubs Client And Forcing npm ci To Retry If It Fails$suffix &&
+        docker-compose -f "$composefile" build hubs-client &&
+        mutagen-compose -f "$composefile" run --rm hubs-client sh -c 'npm config set fetch-timeout 1800000; npm config set fetch-retries 100; npm ci; exitcode="$?"; while [ "$exitcode" -eq 1 ]; do npm ci; exitcode="$?"; done'
+    else
+        echo -e ${prefix}Initializing Hubs Client$suffix &&
+        docker-compose -f "$composefile" build hubs-client &&
+        mutagen-compose -f "$composefile" run --rm hubs-client npm ci
+    fi
+    exitcode=$?
+    if [ $exitcode -ne 0 ]; then
+        echo "Initializing Hubs Client failed with exit code $exitcode"
+        code=$(($code + 8))
+    fi
+fi
+
+if [ ${#services[@]} -eq 0 ] || in_services "spoke"; then
+    echo -e ${prefix}Initializing Spoke$suffix &&
+    mutagen-compose -f "$composefile" run --rm spoke yarn install
+    code=$(($code + 16))
+    exitcode=$?
+    if [ $exitcode -ne 0 ]; then
+        echo "Initializing Spoke failed with exit code $exitcode"
+        code=$(($code + 16))
+    fi
+fi
+
+
+# CLEAN UP
 mutagen-compose down
 exit $code

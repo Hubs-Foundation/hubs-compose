@@ -89,6 +89,15 @@ Some scripts used to run `hubs-compose` are meant to run in a Unix-like `bash` s
 * Initialize services and/or update service dependencies with `bin/init`
   - This should be run whenever a service's dependencies change, e.g. when a new node module or Hubs Client add-on has been added.
   - Note: this will not affect the GitHub repositories cloned into the `services` folder, it will just ignore them.
+  - Which services to update can be specified by using one or more of the following names.
+    - `reticulum`
+    - `dialog`
+    - `hubs-admin`
+    - `hubs-client`
+    - `hubs` (does both `hubs-admin` and `hubs-client`)
+    - `spoke`
+  - Use the `-f` option to make the `npm ci` that is used in the initialization of some services retry until it succeeds.
+    - Warning: this may result in an infinite loop if errors are encountered that can't be solved by simply retrying, so watch carefully and be prepared to cancel (Ctrl+C).
 * You can restart Hubs Compose with this chained command: `bin/down && mutagen daemon stop && bin/up`
 
 [^1]: Requires `tmux` and `watch` program files in the user’s path
@@ -202,11 +211,11 @@ problem (see the [Hard Refreshing A Page section](#hard-refreshing-a-page) below
 * If you see errors printed to the page (not the console) talking about not being able to read the credentials after clearing your local storage, try refreshing the page.
 * If you see errors printed to the page after waking your computer up from sleep, try restarting Hubs Compose.
 * If you see errors printed to the page (not the console) complaining that dependencies like `bitecs` and `three` can't be found, and clearing the local storage/refreshing the page/restarting Hubs Compose hasn't worked, try running `bin/reset`.
-  - Note: if you know what service is likely causing the problem, you can try to re-download all the dependencies for a single service by finding the mutagen compose command for the service in `bin/init` and running that on its own in a terminal (you'll probably have to replace `conditional-npm-ci` with `npm ci`).
+  - Note: if you know what service is likely causing the problem, you can try to re-download all the dependencies for a single service by running `bin/init` and specifying the service.
 * If you no longer get the reticulum email link when trying to log in, restart Hubs Compose.
 * Reticulum needs to be restarted every 24 hours because JWT expires, restarting Hubs Compose fixes it.  If you see errors relating to JWT, this is why.
-* If you are seeing timeouts when downloading dependencies (it's probably because of this bug: https://github.com/npm/cli/issues/3078), try replacing the `conditional-npm-ci` references in `bin/init` with the following, and then running `bin/init` or `bin/reset` again (note: you may want to restore the original `conditional-npm-ci` command once you are past this error to prevent an infinite loop if a different error comes up on a future run):
-`sh -c 'checksum='package-lock.sha512'; if ! sha512sum --check --status $checksum 2>/dev/null; then npm config set fetch-timeout 1800000; npm config set fetch-retries 100; npm ci; exitcode="$?"; while [ "$exitcode" -eq 1 ]; do npm ci; exitcode="$?"; done; sha512sum package-lock.json > $checksum; fi'`
+* If you are seeing timeouts when downloading dependencies (it's probably because of this bug: https://github.com/npm/cli/issues/3078), try running `/bin/init` with the `-f` option.
+  - Warning: this may result in an infinite loop if other errors are encountered, so watch carefully and be prepared to cancel (Ctrl+C).
 * if you are stuck on loading the room, try restarting Hubs Compose.
 * If the above steps do not resolve the issue, try restarting your browser.
 * If the above steps do not resolve the issue, try restarting docker.
@@ -224,6 +233,40 @@ You can clear your local storage by opening the dev tools in your browser (Ctrl+
 Rather than just refreshing your page, it's probably beneficial to remove the cache as well by performing a hard refresh, just to make sure there isn't any stale data causing problems.
 To hard refresh a page in Chrome/Firefox you can use the Ctrl+Shift+R hotkey (Cmd+Shift+R on Mac).  This will also clear the cache for that page.  For other browsers, see this page: https://filecamp.com/support/problem-solving/hard-refresh/
 
+## bin/init exit codes
+
+* `0` Success.
+* `1` Reticulum failed to initialize.
+* `2` Dialog failed to initialize.
+* `3` Reticulum and Dialog failed to initialize.
+* `4` Hubs Admin failed to initialize.
+* `5` Reticulum and Hubs Admin failed to initialize.
+* `6` Dialog and Hubs Admin failed to initialize.
+* `7` Reticulum, Dialog, and Hubs Admin failed to initialize.
+* `8` Hubs Client failed to initialize.
+* `9` Reticulum and Hubs Client failed to initialize.
+* `10` Dialog and Hubs Client failed to initialize.
+* `11` Reticulum, Dialog, and Hubs Client failed to initialize.
+* `12` Hubs Admin and Hubs Client failed to initialize.
+* `13` Reticulum, Hubs Admin, and Hubs Client failed to initialize.
+* `14` Dialog, Hubs Admin, and Hubs Client failed to initialize.
+* `15` Reticulum, Dialog, Hubs Admin, and Hubs Client failed to initialize.
+* `16` Spoke failed to initialize.
+* `17` Reticulum and Spoke failed to initialize.
+* `18` Dialog and Spoke failed to initialize.
+* `19` Reticulum, Dialog, and Spoke failed to initialize.
+* `20` Hubs Admin and Spoke failed to initialize.
+* `21` Reticulum, Hubs Admin, and Spoke failed to initialize.
+* `22` Dialog, Hubs Admin, and Spoke failed to initialize.
+* `23` Reticulum, Dialog, Hubs Admin, and Spoke failed to initialize.
+* `24` Hubs Client and Spoke failed to initialize.
+* `25` Reticulum, Hubs Client, and Spoke failed to initialize.
+* `26` Dialog, Hubs Client, and Spoke failed to initialize.
+* `27` Reticulum, Dialog, Hubs Client, and Spoke failed to initialize.
+* `28` Hubs Admin, Hubs Client, and Spoke failed to initialize.
+* `29` Reticulum, Hubs Admin, Hubs Client, and Spoke failed to initialize.
+* `30` Dialog, Hubs Admin, Hubs Admin, Hubs Client, and Spoke failed to initialize.
+* `31` Reticulum, Dialog, Hubs Admin, Hubs Client, and Spoke failed to initialize.
 
 ## Development
 
